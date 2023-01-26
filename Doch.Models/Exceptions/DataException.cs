@@ -1,4 +1,4 @@
-﻿namespace Doch.Data.Exceptions
+﻿namespace Doch.Models.Exceptions
 {
 
     [Serializable]

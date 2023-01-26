@@ -1,5 +1,5 @@
 ﻿using Doch.Data;
-using Doch.Data.Exceptions;
+using Doch.Models.Exceptions;
 using Doch.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;

@@ -1,4 +1,4 @@
-﻿using Doch.Data.Exceptions;
+﻿using Doch.Models.Exceptions;
 using Doch.Models;
 using Microsoft.EntityFrameworkCore;
 

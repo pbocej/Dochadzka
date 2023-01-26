@@ -1,0 +1,76 @@
+﻿@using Doch.Models
+@model IEnumerable<Employee>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">@ViewData["Title"]</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Employee" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>&nbsp;Create Employee Item
+            </a>
+        </div>
+    </div>
+</div>
+<br />
+<div style="">
+    <table id="dataTable" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Full Name
+                </th>
+                <th class="text-end">
+                    Date Of Birth
+                </th>
+                <th>
+                    Position
+                </th>
+                <th class="text-end">
+                    IP Address
+                </th>
+                <th class="text-center">
+                    IP Country
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@item.EmployeeId">
+                    <td>
+                        <a asp-controller="Doch" asp-action="detail" asp-route-id="@item.EmployeeId">
+                            @item.Name &nbsp; @item.SurName
+                        </a>
+                    </td>
+                    <td class="text-end">
+                        @item.BirthDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @if (item.Position != null)
+                            @item.Position.PositionName
+
+                    </td>
+                    <td>
+                        @item.IpAddress
+                    </td>
+                        <td class="text-center">
+                        @item.IpCountryCode
+                    </td>
+                    <td class="flex-nowrap">
+                        <div class="float-end">
+                            <a asp-controller="Doch" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-primary">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            &nbsp;
+                            <a class="btn btn-danger" onclick="return deleteItem('@ViewData["APIBaseUrl"]', 'Employee', @item.EmployeeId, '@item.Name + ' ' + @item.SurName');">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
