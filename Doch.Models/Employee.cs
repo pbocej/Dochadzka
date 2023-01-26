@@ -26,6 +26,7 @@ namespace Doch.Models
         [Required]
         [MaxLength(50)]
         [DisplayName("IP Address")]
+        [RegularExpression("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", ErrorMessage = "Invalit IP format")]
         public string IpAddress { get; set; }
         [DisplayName("IP Country Code")]
         public string IpCountryCode { get; set; }

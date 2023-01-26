@@ -64,5 +64,21 @@ namespace Doch.Web.Controllers
             return View(employee);
         }
 
+        [HttpGet("Edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                Employee? employee = await _apiClient.GetEmployee(id);
+                return employee == null ? NotFound() : View(employee);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
     }
 }

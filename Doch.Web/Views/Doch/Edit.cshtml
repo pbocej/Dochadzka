@@ -1,0 +1,52 @@
+﻿@using Doch.Models
+@model Employee
+@{
+    var positions = ViewData["Positions"] as IEnumerable<Position>;
+}
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="rov pb-2">
+            <h2 class="text-primary">Create Work</h2>
+            <hr />
+        </div>
+        @*<div asp-validation-summary="All" class="alert-danger"></div>*@
+        <div class="col-sm-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" autofocus />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="SurName"></label>
+            <input asp-for="SurName" class="form-control" />
+            <span asp-validation-for="SurName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="BirthDate"></label>
+            <input asp-for="BirthDate" class="form-control" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="PositionId"></label>
+            <select asp-for="PositionId"
+                    asp-items="(Doch.Web.Code.Utils.GetPositions().Result.Select(p => new SelectListItem() { Value = p.Key, Text = p.Value})).ToList()"
+                    class="form-select">
+            </select>
+            <span asp-validation-for="PositionId" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="IpAddress"></label>
+            <input asp-for="IpAddress" class="form-control" />
+            <span asp-validation-for="IpAddress" class="text-danger"></span>
+        </div>
+        <div class="col-lg-12 visually-hidden">
+            <label asp-for="IpCountryCode"></label>
+            <input asp-for="IpCountryCode" class="form-control" value="blank" />
+            <span asp-validation-for="IpCountryCode" class="text-danger"></span>
+        </div>
+        <br />
+        <button action="Edit" class="btn btn-primary" style="width:150px">Update</button>
+        <a asp-controller="Doch" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Back to List
+        </a>
+    </div>
+</form>
