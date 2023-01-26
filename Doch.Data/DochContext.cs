@@ -16,6 +16,38 @@ namespace Doch.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Position);
+
+            modelBuilder.Entity<Position>()
+                .HasData(new Position()
+                {
+                    PositionId = 1,
+                    PositionName = "Director"
+                });
+            modelBuilder.Entity<Position>()
+                .HasData(new Position()
+                {
+                    PositionId = 2,
+                    PositionName = "Manager"
+                });
+            modelBuilder.Entity<Position>()
+                .HasData(new Position()
+                {
+                    PositionId = 3,
+                    PositionName = "Financial"
+                });
+            modelBuilder.Entity<Position>()
+                .HasData(new Position()
+                {
+                    PositionId = 4,
+                    PositionName = "Buildings"
+                });
+            modelBuilder.Entity<Position>()
+                .HasData(new Position()
+                {
+                    PositionId = 5,
+                    PositionName = "People"
+                });
+
         }
     }
 }
