@@ -58,6 +58,11 @@ namespace Doch.Data.Migrations
                     { 5, "People" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "EmployeeId", "BirthDate", "IpAddress", "IpCountryCode", "Name", "PositionId", "SurName" },
+                values: new object[] { 1, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1.1.1.1", "SK", "Admin", 1, "Administrator" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_PositionId",
                 table: "Employees",

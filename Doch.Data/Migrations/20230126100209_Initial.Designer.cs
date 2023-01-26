@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doch.Data.Migrations
 {
     [DbContext(typeof(DochContext))]
-    [Migration("20230126080401_Initial")]
+    [Migration("20230126100209_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,18 @@ namespace Doch.Data.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IpAddress = "1.1.1.1",
+                            IpCountryCode = "SK",
+                            Name = "Admin",
+                            PositionId = 1,
+                            SurName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("Doch.Models.Position", b =>

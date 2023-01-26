@@ -48,6 +48,17 @@ namespace Doch.Data
                     PositionName = "People"
                 });
 
+            modelBuilder.Entity<Employee>()
+                .HasData(new Employee()
+                {
+                    EmployeeId = 1,
+                    Name = "Admin",
+                    SurName = "Administrator",
+                    BirthDate = new DateTime(2000, 1, 1),
+                    PositionId = 1,
+                    IpAddress = "1.1.1.1",
+                    IpCountryCode = "SK"
+                });
         }
     }
 }

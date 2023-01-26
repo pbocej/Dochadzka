@@ -15,12 +15,16 @@ namespace Doch.Data
 
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            return await _context.Employees.ToListAsync();
+            return await _context.Employees
+                .Include(i => i.Position)
+                .ToListAsync();
         }
 
         public async Task<Employee> GetEmployee(int employeeId)
         {
-            var emp = await _context.Employees.FindAsync(employeeId);
+            var emp = await _context.Employees
+                .Include(i => i.Position)
+                .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
             return emp ?? throw new DataNotFoundException("Employee not found.");
         }
 
@@ -31,7 +35,9 @@ namespace Doch.Data
             var ret = await _context.SaveChangesAsync();
             if (ret == 0)
                 throw new DataException("Error creating employee");
-            return await _context.Employees.FirstOrDefaultAsync(e => e.Name== employee.Name && e.SurName == employee.SurName) 
+            return await _context.Employees
+                .Include(i => i.Position)
+                .FirstOrDefaultAsync(e => e.Name== employee.Name && e.SurName == employee.SurName) 
                 ?? throw new DataException("Error creating employee");
         }
 

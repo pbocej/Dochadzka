@@ -60,6 +60,18 @@ namespace Doch.Data.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = 1,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IpAddress = "1.1.1.1",
+                            IpCountryCode = "SK",
+                            Name = "Admin",
+                            PositionId = 1,
+                            SurName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("Doch.Models.Position", b =>
