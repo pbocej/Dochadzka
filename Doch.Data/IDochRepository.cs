@@ -4,10 +4,12 @@ namespace Doch.Data
 {
     public interface IDochRepository
     {
-        IEnumerable<Employee> GetEmployees();
-        Employee GetEmployee(int employeeId);
-        Employee AddEmployee(Employee employee);
-        Employee UpdateEmployee(Employee employee);
-        Employee DeleteEmployee(int employeeId);
+        Task<IEnumerable<Employee>> GetEmployees();
+        Task<Employee> GetEmployee(int employeeId);
+        Task<Employee> AddEmployee(Employee employee);
+        Task<Employee> UpdateEmployee(Employee employee);
+        Task<bool> DeleteEmployee(int employeeId);
+
+        Task<IEnumerable<Position>> GetPositions();
     }
 }

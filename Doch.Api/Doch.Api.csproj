@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Doch.Data\Doch.Data.csproj" />
     <ProjectReference Include="..\Doch.Models\Doch.Models.csproj" />
   </ItemGroup>
