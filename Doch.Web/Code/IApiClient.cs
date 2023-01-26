@@ -10,5 +10,7 @@ namespace Doch.Web.Code
         Task<Employee> GetEmployee(int id);
         Task<IEnumerable<Employee>> GetEmployeeList();
         Task<int> UpdateEmployee(Employee employee);
+
+        Task<IEnumerable<Position>> GetPositions();
     }
 }

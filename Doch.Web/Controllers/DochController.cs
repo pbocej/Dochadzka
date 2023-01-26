@@ -31,5 +31,38 @@ namespace Doch.Web.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("create")]
+        public ActionResult<Employee> Create()
+        {
+            ViewData["Title"] = "Create new Employee";
+            ViewData["Positions"] = _apiClient.GetPositions();
+            return View(new Employee());
+        }
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Employee employee)
+        {
+            int employeeId;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    employeeId = await _apiClient.CreateEmployee(employee);
+                    if (employeeId != 0)
+                    {
+                        TempData["success"] = $"Employee {employee.Name} {employee.SurName} created.";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            catch (DataException ex)
+            {
+                Utils.ParseRequestException(ex, ModelState);
+            }
+
+            return View(employee);
+        }
+
     }
 }

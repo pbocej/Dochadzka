@@ -46,9 +46,32 @@ namespace Doch.Web.Code
             throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
-        public Task<int> CreateEmployee(Employee employee)
+        public async Task<int> CreateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.PostAsync(_dochPath, JsonContent.Create(employee, new MediaTypeHeaderValue("application/json")));
+            string textResponse = await response.Content.ReadAsStringAsync();
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                case System.Net.HttpStatusCode.Created:
+                    if (textResponse != null)
+                    {
+                        Employee? retEmployee = JsonConvert.DeserializeObject<Employee>(textResponse);
+                        if (retEmployee != null)
+                        {
+                            return retEmployee.EmployeeId;
+                        }
+                    }
+                    break;
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new DataNotFoundException(textResponse);
+                case System.Net.HttpStatusCode.Conflict:
+                    throw new DataConflictException(textResponse);
+                case System.Net.HttpStatusCode.BadRequest:
+                    throw new DataException(textResponse);
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
         public Task DeleteEmployee(int id)
@@ -64,6 +87,22 @@ namespace Doch.Web.Code
         public Task<int> UpdateEmployee(Employee employee)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Position>> GetPositions()
+        {
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($"{_dochPath}/positions");
+            if (response.IsSuccessStatusCode)
+            {
+                string textResponse = await response.Content.ReadAsStringAsync();
+                if (textResponse != null)
+                {
+                    List<Position>? list = JsonConvert.DeserializeObject<List<Position>>(textResponse);
+                    return list ?? new List<Position>();
+                }
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
     }
 }
