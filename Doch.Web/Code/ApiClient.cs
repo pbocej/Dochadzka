@@ -11,6 +11,7 @@ namespace Doch.Web.Code
 
         private readonly string _baseUrl;
         private readonly string _dochPath = "/api/doch";
+        private readonly string _fgipPath = "/api/FGIP/country";
         private readonly IConfiguration _configuration;
 
         public ApiClient(IConfiguration configuration)
@@ -100,6 +101,21 @@ namespace Doch.Web.Code
                 {
                     List<Position>? list = JsonConvert.DeserializeObject<List<Position>>(textResponse);
                     return list ?? new List<Position>();
+                }
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
+        }
+
+        public async Task<string> GetCoutryByIP(string ip)
+        {
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($"{_fgipPath}/{ip}");
+            if (response.IsSuccessStatusCode)
+            {
+                string textResponse = await response.Content.ReadAsStringAsync();
+                if (textResponse != null)
+                {
+                    return textResponse.Replace("\"", "");
                 }
             }
             throw new DataException($"{response.StatusCode}: {response.RequestMessage}");

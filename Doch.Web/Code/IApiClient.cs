@@ -12,5 +12,6 @@ namespace Doch.Web.Code
         Task<int> UpdateEmployee(Employee employee);
 
         Task<IEnumerable<Position>> GetPositions();
+        Task<string> GetCoutryByIP(string ip);
     }
 }

@@ -36,7 +36,7 @@ namespace Doch.Web.Controllers
         public ActionResult<Employee> Create()
         {
             ViewData["Title"] = "Create new Employee";
-            ViewData["Positions"] = _apiClient.GetPositions();
+            ViewData["APIBaseUrl"] = _apiClient.APIBaseUrl;
             return View(new Employee());
         }
         [HttpPost("create")]
@@ -48,6 +48,7 @@ namespace Doch.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    employee.IpCountryCode = await _apiClient.GetCoutryByIP(employee.IpAddress);
                     employeeId = await _apiClient.CreateEmployee(employee);
                     if (employeeId != 0)
                     {
