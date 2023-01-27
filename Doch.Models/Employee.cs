@@ -16,7 +16,7 @@ namespace Doch.Models
         [DisplayName("Last name")]
         public string SurName { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DataType(DataType.DateTime)]
         [DisplayName("Date of Birth")]
         public DateTime BirthDate { get; set; }
         [Required]

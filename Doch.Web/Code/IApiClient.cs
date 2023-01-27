@@ -6,7 +6,7 @@ namespace Doch.Web.Code
     {
         string APIBaseUrl { get; }
         Task<int> CreateEmployee(Employee employee);
-        Task DeleteEmployee(int id);
+        Task<bool> DeleteEmployee(int id);
         Task<Employee> GetEmployee(int id);
         Task<IEnumerable<Employee>> GetEmployeeList();
         Task<int> UpdateEmployee(Employee employee);

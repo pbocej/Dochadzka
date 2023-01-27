@@ -75,19 +75,72 @@ namespace Doch.Web.Code
             throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
-        public Task DeleteEmployee(int id)
+        public async Task<Employee> GetEmployee(int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($"{_dochPath}/{id}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                throw new DataNotFoundException();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string textResponse = response.Content.ReadAsStringAsync().Result;
+                if (textResponse != null)
+                {
+                    Employee? employee = JsonConvert.DeserializeObject<Employee>(textResponse);
+                    if (employee != null)
+                        return employee;
+                }
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
-        public Task<Employee> GetEmployee(int id)
+        public async Task<int> UpdateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.PutAsync($"{_dochPath}/{employee.EmployeeId}", JsonContent.Create(employee, new MediaTypeHeaderValue("application/json")));
+            string textResponse = await response.Content.ReadAsStringAsync();
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                case System.Net.HttpStatusCode.Created:
+                    if (textResponse != null)
+                    {
+                        Employee? retEmployee = JsonConvert.DeserializeObject<Employee>(textResponse);
+                        if (retEmployee != null)
+                        {
+                            return retEmployee.EmployeeId;
+                        }
+                    }
+                    break;
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new DataNotFoundException(textResponse);
+                case System.Net.HttpStatusCode.Conflict:
+                    throw new DataConflictException(textResponse);
+                case System.Net.HttpStatusCode.BadRequest:
+                    throw new DataException(textResponse);
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
-        public Task<int> UpdateEmployee(Employee employee)
+        public async Task<bool> DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = GetClient();
+            HttpResponseMessage response = await client.DeleteAsync($"{_dochPath}/{id}");
+            string textResponse = await response.Content.ReadAsStringAsync();
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                    return true;
+                case System.Net.HttpStatusCode.NotFound:
+                    throw new DataNotFoundException(textResponse);
+                case System.Net.HttpStatusCode.Conflict:
+                    throw new DataConflictException(textResponse);
+                case System.Net.HttpStatusCode.BadRequest:
+                    throw new DataException(textResponse);
+            }
+            throw new DataException($"{response.StatusCode}: {response.RequestMessage}");
         }
 
         public async Task<IEnumerable<Position>> GetPositions()

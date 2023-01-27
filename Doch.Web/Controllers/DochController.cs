@@ -78,6 +78,32 @@ namespace Doch.Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("edit/{id}")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Edit(Employee employee)
+        {
+            int employeeId;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    employee.IpCountryCode = await _apiClient.GetCoutryByIP(employee.IpAddress);
+                    employeeId = await _apiClient.UpdateEmployee(employee);
+                    if (employeeId != 0)
+                    {
+                        TempData["success"] = $"Employee {employee.Name} {employee.SurName} updated.";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            catch (DataException ex)
+            {
+                Utils.ParseRequestException(ex, ModelState);
+                return View(employee);
+            }
+
+            return View(employee);
+        }
 
 
 
