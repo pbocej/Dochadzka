@@ -65,7 +65,7 @@
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                             &nbsp;
-                            <a class="btn btn-danger" onclick="return deleteItem('@ViewData["APIBaseUrl"]', 'Employee', @item.EmployeeId, '@item.Name + ' ' + @item.SurName');">Delete</a>
+                            <a class="btn btn-danger" onclick="return deleteItem('@ViewData["APIBaseUrl"]', 'Employee', @item.EmployeeId, '@item.Name @item.SurName');">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -74,3 +74,30 @@
     </table>
 </div>
 
+<script type="text/javascript">
+function deleteItem(apiBaseUrl, entity, id, name) {
+    if (window.confirm('Delete employee '+name+'?'))
+    {
+        $.ajax({
+                url: "".concat(apiBaseUrl, "/api/doch/").concat(id),
+            type: "DELETE",
+            data: {},
+            headers: {
+                "Content-Type": "text/xml; charset=utf-8",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type"
+            }
+            })
+            .done(function () {
+                    $("#".concat(id)).remove();
+                    alert("Item ".concat(name, " deleted."));
+                }).fail(function (data) {
+                    var _a;
+                    alert((_a = data.responseText) !== null && _a !== void 0 ? _a : "Error delting {entity}.");
+            })
+    }
+}
+
+</script>
