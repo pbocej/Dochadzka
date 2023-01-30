@@ -1,0 +1,45 @@
+﻿@using Doch.Models;
+@model Employee
+
+
+<div class="border p-3 mt-4">
+    <div class="rov pb-2">
+        <h2 class="text-primary">@Model.Name @Model.SurName</h2>
+        <hr />
+    </div>
+    <div class="col-10">
+        <table>
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <th>Full Name:</th>
+                    <td>@Model.Name @Model.SurName</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth:</th>
+                    <td>@Model.BirthDate.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Position:</th>
+                    <td>
+                        @if (Model.Position != null)
+                            @Model.Position.PositionName
+
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>IP Address:</th>
+                        <td>@Model.IpAddress</td>
+                    </tr>
+                    <tr>
+                        <th>IP Country:</th>
+                        <td>@Model.IpCountryCode</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+    </div>
+

@@ -31,6 +31,15 @@ namespace Doch.Web.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Detail(int id)
+        {
+            // TODO: https://www.youtube.com/watch?v=gRBC50ddQzw
+            var employee = await _apiClient.GetEmployee(id);
+            if (employee == null) return NotFound();
+
+            return View(employee);
+        }
 
         [HttpGet("create")]
         public ActionResult<Employee> Create()
